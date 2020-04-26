@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: binary_index_tree
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: binary_index_tree
+    container_name: binary_index_tree-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - binary_index_tree
+
+  db:
+    image: mysql:5.7
+    container_name: binary_index_tree-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports:
+      - ${DOCKER_CONTAINER_DB_PORT}:3306
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - binary_index_tree
+
+  nginx:
+    image: nginx:alpine
+    container_name: binary_index_tree-nginx
+    restart: unless-stopped
+    ports:
+      - ${DOCKER_CONTAINER_WEB_PORT}:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - binary_index_tree
+
+networks:
+  binary_index_tree:
+    driver: bridge
