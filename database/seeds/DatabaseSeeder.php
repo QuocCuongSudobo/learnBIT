@@ -11,6 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $tables = ['bases', 's_bases'];
+
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+        $this->call(BaseSeeder::class);
+        $this->call(SBaseSeeder::class);
     }
 }
