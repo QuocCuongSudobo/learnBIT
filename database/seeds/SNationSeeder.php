@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\National;
+use App\Snational;
 
 class SNationSeeder extends Seeder
 {
@@ -14,23 +14,23 @@ class SNationSeeder extends Seeder
     {
         DB::table('snationals')->truncate();
 
+        $dataDate = bn_range_date('202001', '212012');
         foreach (range(0, 200) as $nation) {
+            $data = [];
+            $allData = [];
 
-            $data = DB::table('nationals')->whereNation($nation)->pluck('value', 'month');
-
-            $dataX = [];
-
-            foreach ($data as $month => $value) {
-                $dataX[date_to_index('202001', $month)] = $value;
+            foreach ($dataDate as $date) {
+                $data[date_to_index('202001', $date)] = 1;
             }
 
-            foreach ($dataX as $index => $value) {
-                DB::table('snationals')->insert([
+            foreach ($data as $index => $value) {
+                $allData[] = [
                     'month' => $index,
                     'nation' => $nation,
-                    'value' => bit_sum($index, $dataX)
-                ]);
+                    'value' => bit_sum($index, $data)
+                ];
             }
+            Snational::insert($allData);
         }
     }
 }

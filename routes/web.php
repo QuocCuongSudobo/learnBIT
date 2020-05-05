@@ -20,3 +20,4 @@ Route::get('/', function () {
 Route::get('index', 'FenwichTreeAlgorithm@index');
 Route::get('search', 'SearchController@index');
 Route::get('nation', 'SearchNationController@index');
+Route::get('all', 'SearchAllController@index');
