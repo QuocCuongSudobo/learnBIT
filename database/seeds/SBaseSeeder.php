@@ -15,22 +15,9 @@ class SBaseSeeder extends Seeder
 
         foreach ($data as $index => $value) {
             DB::table('s_bases')->insert([
-                'index' => $index,
-                'value' => $this->sum($index, $data)
+                'month' => $index,
+                'value' => bit_sum($index, $data)
             ]);
         }
-    }
-
-    public function sum($index, $data)
-    {
-        $sum = 0;
-        $to = $index;
-        $from = $index - ($index & -$index) + 1;
-
-        for ($i = $from; $i<= $to; $i++) {
-            $sum += $data[$i];
-        }
-
-        return $sum;
     }
 }

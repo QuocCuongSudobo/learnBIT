@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSBasesTable extends Migration
+class CreateNationalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateSBasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('s_bases', function (Blueprint $table) {
+        Schema::create('nationals', function (Blueprint $table) {
             $table->id();
             $table->string('month');
+            $table->integer('nation');
             $table->float('value');
             $table->timestamps();
-            $table->unique('month');
+            $table->unique(['month', 'nation']);
         });
     }
 
@@ -29,6 +30,6 @@ class CreateSBasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('s_bases');
+        Schema::dropIfExists('nationals');
     }
 }

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Base;
-use App\SBase;
+use App\National;
+use App\SNational;
 
-class SearchController extends Controller
+class SearchNationController extends Controller
 {
     public function __construct()
     {
         $this->from = date_from();
         $this->to = date_to();
+        $this->nation = 2;
     }
 
     public function index()
@@ -43,7 +44,9 @@ class SearchController extends Controller
     {
         $dataDate = bn_range_date($from, $to);
 
-        $total = Base::whereIn('month', $dataDate)->sum('value');
+        $total = National::whereIn('month', $dataDate)
+                    ->whereNation($this->nation)
+                    ->sum('value');
 
         return $total;
     }
@@ -53,8 +56,13 @@ class SearchController extends Controller
         $indexFrom = binary(get_index($from) - 1);
         $indexTo = binary(get_index($to));
 
-        $total = SBase::whereIn('month', $indexTo)->sum('value') - SBase::whereIn('month', $indexFrom)->sum('value');
+        $totalTo = SNational::whereIn('month', $indexTo)
+                        ->whereNation($this->nation)
+                        ->sum('value');
 
-        return $total;
+        $totalFrom = SNational::whereIn('month', $indexFrom)
+                        ->whereNation($this->nation)
+                        ->sum('value');
+        return $totalTo - $totalFrom;
     }
 }

@@ -47,8 +47,12 @@
         <h1>Fenwich Tree (Binary Index Tree)</h1>
         <div class="content">
 
+            <div>{{$totalByMOnth}}</div>
+            <div>{{$time1}}</div>
+            <div>{{$totalByBit}}</div>
+            <div>{{$time2}}</div>
 
-            <table>
+            {{-- <table>
                 <tr>
                     <td></td>
                     @foreach($A as $index => $val)
@@ -67,7 +71,7 @@
                         <td>{{$val}}</td>
                     @endforeach()
                 </tr>
-            </table>
+            </table> --}}
 
 
             {{-- <label for="">A</label>
