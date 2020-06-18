@@ -74,6 +74,6 @@ if (!function_exists('date_from')) {
 if (!function_exists('date_to')) {
     function date_to()
     {
-        return '212001';
+        return '202006';
     }
 }
